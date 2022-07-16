@@ -3,74 +3,99 @@
 ### COMMENTS / DOCUMENTATION
 # I'm a short comment
 """
-I'm a documentation comment
+I'm a longer documentation comment that
+can run across multiple lines
 """
-enum ### ENUMS
-PUBLICATION_STATUS {
-  PUBLISHED
+scalar Date ### CUSTOM SCALARS
+interface ILocation {
+  id: ID!
+  address: String!
+  city: String!
+  state: String!
+  zipCode: Int!
+  phoneNumber: String
+}
+
+type Library implements ILocation {
+  id: ID!
+  name: String!
+  address: String!
+  city: String!
+  state: String!
+  zip_code: Int!
+  phone_number: String
+  books: [Book]!
+  bookCopies: [BookCopy]!
+  early_start_program: Boolean!
+  founded: Date
+}
+
+type Bookstore implements ILocation {
+  id: ID!
+  name: String!
+  address: String!
+  city: String!
+  state: String!
+  zipCode: Int!
+  phoneNumber: String
+  books: [Book]!
+  bookCopies: [BookCopy]!
+  brainyBooksCharityMember: Boolean!
+}
+
+union BookSupplier = Library | Bookstore
+
+enum AVAILABILITY {
+  UNAVAILABLE
+  AVAILABLE
   PENDING
-  OUT_OF_PRINT
-}
-
-### CUSTOM SCALARS
-scalar Date
-
-### INTERFACE
-interface IAuthor {
-  id: ID!
-  name: String!
-}
-
-### TYPES / FIELDS
-type Author implements IAuthor {
-  id: ID!
-  name: String!
-  birthdate: Date!
-  books: [Book]!
-}
-
-type Publisher implements IAuthor {
-  id: ID!
-  name: String!
-  founded: Date!
-  books: [Book]!
 }
 
 type Book {
+  id: Id!
+  name: String!
+  author: String!
+  yearOfPublication: Int
+  copies: [BookCopy]!
+  locations: [BookSupplier]!
+}
+
+type BookCopy {
   id: ID!
-  title: String!
-  author: Author!
-  price: Float # nullable
-  best_seller: Boolean!
-  publication_years: [Int!] # example of optional field with required contents
-  publication_status: PUBLICATION_STATUS!
+  book: Book!
+  availability: AVAILABILITY!
+  supplier: BookSupplier!
 }
 
-### UNION
-union Creator = Author | Publisher
-
-### QUERIES
-type Query {
-  author(id: ID!): Author
-  booksByAuthor(authorID: ID!): [Book]
-  creator(name: String!): Creator
-  allBooks: [Book]! # example of query without args
-}
-
-### INPUTS
 input BookInput {
-  authorID: ID!
-  title: String!
-  publication_status: PUBLICATION_STATUS!
-  best_seller: Boolean!
-  publication_years: [Int!]
-  price: Float
+  name: String!
+  author: String!
+  yearOfPublication: Int
 }
 
-### MUTATIONS
+input BookCopyInput {
+  bookId: ID!
+  supplierId: ID!
+}
+
+input BookSearchInput {
+  name: String
+  author: String
+  location: String # name of BookSupplier
+}
+
+type Query {
+  getAllLocations: [BookSupplier]!
+  findBook(searchParams: BookSearchInput!): [BookSupplier]!
+}
+
 type Mutation {
-  addAuthor(name: String!, birthdate: Date!): Author!
-  addBook(bookInfo: BookInput!): Book!
+  addBook(book: BookInput!): Book!
+  addBookCopy(bookCopy: BookCopyInput!): BookCopy!
+  checkoutBook(bookCopyId: ID!): BookCopy
+  returnBook(bookCopyId: ID!): Boolean!
+  removeBook(id: ID!): Boolean!
+  removeBookCopy(id: ID!): Boolean!
 }
 
 ### SUBSCRIPTIONS -add later
