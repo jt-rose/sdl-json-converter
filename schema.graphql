@@ -1,0 +1,78 @@
+# this is a sample schema to be used for testing
+
+### COMMENTS / DOCUMENTATION
+# I'm a short comment
+"""
+I'm a documentation comment
+"""
+enum ### ENUMS
+PUBLICATION_STATUS {
+  PUBLISHED
+  PENDING
+  OUT_OF_PRINT
+}
+
+### CUSTOM SCALARS
+scalar Date
+
+### INTERFACE
+interface IAuthor {
+  id: ID!
+  name: String!
+}
+
+### TYPES / FIELDS
+type Author implements IAuthor {
+  id: ID!
+  name: String!
+  birthdate: Date!
+  books: [Book]!
+}
+
+type Publisher implements IAuthor {
+  id: ID!
+  name: String!
+  founded: Date!
+  books: [Book]!
+}
+
+type Book {
+  id: ID!
+  title: String!
+  author: Author!
+  price: Float # nullable
+  best_seller: Boolean!
+  publication_years: [Int!] # example of optional field with required contents
+  publication_status: PUBLICATION_STATUS!
+}
+
+### UNION
+union Creator = Author | Publisher
+
+### QUERIES
+type Query {
+  author(id: ID!): Author
+  booksByAuthor(authorID: ID!): [Book]
+  creator(name: String!): Creator
+  allBooks: [Book]! # example of query without args
+}
+
+### INPUTS
+input BookInput {
+  authorID: ID!
+  title: String!
+  publication_status: PUBLICATION_STATUS!
+  best_seller: Boolean!
+  publication_years: [Int!]
+  price: Float
+}
+
+### MUTATIONS
+type Mutation {
+  addAuthor(name: String!, birthdate: Date!): Author!
+  addBook(bookInfo: BookInput!): Book!
+}
+
+### SUBSCRIPTIONS -add later
+
+### CUSTOM DIRECTIVES??? - possibly add later
