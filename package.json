@@ -16,6 +16,7 @@
     "tsc": "tsc",
     "watch": "tsc -watch",
     "go": "node build/index.js",
-    "test": "mocha -r ts-node/register test/*.test.ts"
+    "test": "mocha -r ts-node/register test/*.test.ts",
+    "test:watch": " mocha -r ts-node/register --watch --watch-files build/**/*.ts,test/*.ts test/*.test.ts"
   }
 }
