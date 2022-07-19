@@ -64,4 +64,4 @@ export class Field extends ReturnField implements Field {
   }
 }
 
-export const sampleField = new Field("");
+export const sampleField = new Field("nums: [Int!]!");
