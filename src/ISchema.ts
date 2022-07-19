@@ -16,19 +16,21 @@ interface Schema {
 // field names will be used
 // rather than nested field objects
 
-interface Field {
+export interface Depth {
+  level: number;
+  nullable: boolean;
+}
+
+export interface Field {
   name: string;
   type: string; // String, Int, Boolean, [Object], List[], Enum
-  nullableResponse: boolean;
+  nullable: boolean;
   // TODO
-  depth: {
-    level: number;
-    nullable: boolean;
-  }[];
+  depth: Depth[];
   // optional arrayDepth: number
 }
 
-type ReturnField = Omit<Field, "name">;
+export type ReturnField = Omit<Field, "name">;
 
 interface Type {
   name: string;
