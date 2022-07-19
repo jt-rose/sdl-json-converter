@@ -1,4 +1,4 @@
-interface Schema {
+export interface Schema {
   interfaces: SchemaInterface[];
   types: Type[];
   unions: Union[];
@@ -32,48 +32,48 @@ export interface Field {
 
 export type ReturnField = Omit<Field, "name">;
 
-interface Type {
+export interface Type {
   name: string;
   fields: Field[];
 }
 
-interface SchemaInterface extends Type {
+export interface SchemaInterface extends Type {
   implementedBy: string[];
 }
-interface Union {
+export interface Union {
   name: string;
   types: string[];
 }
-interface Enum {
+export interface Enum {
   name: string;
   values: string[];
 }
-interface Input {
+export interface Input {
   name: string;
   fields: Field[];
 }
-interface Scalar {
+export interface Scalar {
   name: string;
 }
-interface Directive {
+export interface Directive {
   name: string;
   // args // TODO
 }
-interface Query {
+export interface Query {
   name: string;
   args: Field[];
   returns: ReturnField;
 }
-interface Mutation {
+export interface Mutation {
   name: string;
   args: Field[];
   returns: ReturnField;
 }
-interface Subscription {
+export interface Subscription {
   name: string;
   // TODO
 }
-interface Comment {
+export interface Comment {
   text: string;
   // TODO
 }
