@@ -1,6 +1,18 @@
 import { readFileSync } from "fs";
+import {
+  Directive,
+  Enum,
+  Input,
+  Mutation,
+  Scalar,
+  SchemaInterface,
+  Subscription,
+  Type,
+  Union,
+} from "./ISchema";
+import { Query } from "./Query";
 
-export class SchemaParser {
+export class Schema {
   private filePath: string;
   private schemaText: string;
   private interfaces: SchemaInterface[];
@@ -18,6 +30,8 @@ export class SchemaParser {
   constructor(filePath: string) {
     const schemaText = this.readFileContents(filePath);
 
+    const queries = Query.parse(schemaText);
+
     this.filePath = filePath;
     this.schemaText = schemaText;
     this.interfaces = []; // TODO
@@ -27,7 +41,7 @@ export class SchemaParser {
     this.inputs = []; // TODO
     this.scalars = []; // TODO
     this.directives = []; // TODO
-    this.queries = []; // TODO
+    this.queries = queries;
     this.mutations = []; // TODO
     this.subscriptions = []; // TODO
     this.comments = []; // TODO
