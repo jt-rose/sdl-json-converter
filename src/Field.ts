@@ -16,7 +16,7 @@ const findTypeData = (fieldText: string) => {
 
   return {
     name,
-    type,
+    type: rootType,
     nullable,
     depth,
   };
