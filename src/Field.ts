@@ -23,44 +23,40 @@ const findTypeData = (fieldText: string) => {
 };
 
 export class ReturnField implements ReturnField {
-  private type: string;
-  private nullable: boolean;
-  private depth: Depth[];
+  private _type: string;
+  private _nullable: boolean;
+  private _depth: Depth[];
 
   constructor(fieldText: string) {
     const { type, nullable, depth } = findTypeData(fieldText);
 
-    this.type = type;
-    this.nullable = nullable;
-    this.depth = depth;
+    this._type = type;
+    this._nullable = nullable;
+    this._depth = depth;
   }
 
-  public getFieldData() {
-    return {
-      type: this.type,
-      nullable: this.nullable,
-      depth: this.depth,
-    };
+  get type() {
+    return this._type;
+  }
+  get nullable() {
+    return this._nullable;
+  }
+  get depth() {
+    return this._depth;
   }
 }
 
 export class Field extends ReturnField implements Field {
-  private name: string;
+  private _name: string;
 
   constructor(fieldText: string) {
     const { name } = findTypeData(fieldText);
     super(fieldText);
-    this.name = name;
+    this._name = name;
   }
 
-  public getFieldData() {
-    const { type, nullable, depth } = super.getFieldData();
-    return {
-      name: this.name,
-      type,
-      nullable,
-      depth,
-    };
+  get name() {
+    return this._name;
   }
 }
 

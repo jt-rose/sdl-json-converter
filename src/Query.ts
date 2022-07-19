@@ -2,9 +2,19 @@ import { Field, ReturnField } from "./Field";
 import { parseQueries } from "./utils/findSection";
 
 export class Query {
-  name: string;
-  args: Field[];
-  returns: ReturnField;
+  private _name: string;
+  private _args: Field[];
+  private _returns: ReturnField;
+
+  get name() {
+    return this._name;
+  }
+  get args() {
+    return this._args;
+  }
+  get returns() {
+    return this._returns;
+  }
 
   constructor(queryText: string) {
     // divide "hello(name: String!): String!" into three sections
@@ -44,9 +54,9 @@ export class Query {
 
     const returnField = new ReturnField(returns);
 
-    this.name = name[0];
-    this.args = fmtArgs;
-    this.returns = returnField;
+    this._name = name[0];
+    this._args = fmtArgs;
+    this._returns = returnField;
   }
 
   // generates query objects from schema text

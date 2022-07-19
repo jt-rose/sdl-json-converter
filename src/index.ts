@@ -5,4 +5,4 @@ import { Schema } from "./Schema";
 const file = path.join("./schema.graphql");
 
 const schema = new Schema(file);
-schema.getSchemaData().queries.forEach((q) => console.log(q));
+schema.queries.forEach((q) => console.log(q));
