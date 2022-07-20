@@ -1,6 +1,6 @@
 import { findBracketSection } from "./findClosingChar";
 
-const parseSection = (sectionName: string) => (schema: string) => {
+export const parseSection = (sectionName: string) => (schema: string) => {
   // find start of section
   const sectionStart = schema.match(
     new RegExp(`type ${sectionName}\\s*\\{(\\s|.)+`)
@@ -17,7 +17,3 @@ const parseSection = (sectionName: string) => (schema: string) => {
   // return complete section
   return fullSection;
 };
-
-export const parseQueries = parseSection("Query");
-export const parseMutations = parseSection("Mutation");
-// ... add other sections later
